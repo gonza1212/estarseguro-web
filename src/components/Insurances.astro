@@ -1,0 +1,59 @@
+---
+import type { ImageMetadata } from 'astro';
+import Container from '@components/Container.astro';
+import SectionTitle from '@components/SectionTitle.astro';
+import Card from '@components/Card.astro';
+import { insurances } from '@data/insurances';
+import artIcon from '@assets/art.webp';
+import sepelioIcon from '@assets/sepelio.webp';
+import autosIcon from '@assets/autos.webp';
+import empresasIcon from '@assets/empresas.webp';
+import otrosIcon from '@assets/otros.webp';
+
+const iconMap: Record<string, ImageMetadata> = {
+  art: artIcon,
+  sepelio: sepelioIcon,
+  autos: autosIcon,
+  empresas: empresasIcon,
+  otros: otrosIcon,
+};
+---
+
+<section class="bg-[var(--color-background)] py-16 sm:py-20">
+  <Container>
+    <SectionTitle
+      eyebrow="Nuestros seguros"
+      title="Soluciones para cada necesidad"
+      align="center"
+    />
+    <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
+      {
+        insurances.map((item) => (
+          <Card>
+            <div class="flex h-full flex-col items-center text-center">
+              <img
+                src={iconMap[item.icon].src}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                class="mb-4 h-16 w-16 object-contain"
+              />
+              <h3 class="mb-2 text-lg font-bold text-[var(--color-text)]">
+                {item.name}
+              </h3>
+              <p class="mb-4 text-sm text-[var(--color-text)] opacity-80">
+                {item.description}
+              </p>
+              <a
+                href={item.detailLink}
+                class="mt-auto text-sm font-semibold text-[var(--color-primary)] hover:underline"
+              >
+                Más información →
+              </a>
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+  </Container>
+</section>

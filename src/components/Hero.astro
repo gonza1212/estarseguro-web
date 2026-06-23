@@ -1,0 +1,240 @@
+---
+import Container from '@components/Container.astro';
+import QuoteForm from '@components/QuoteForm.astro';
+import carrousel1 from '@assets/carrousel-1.webp';
+import carrousel2 from '@assets/carrousel-2.webp';
+import carrousel3 from '@assets/carrousel-3.webp';
+import carrousel4 from '@assets/carrousel-4.webp';
+import carrousel5 from '@assets/carrousel-5.webp';
+
+const slides = [
+  { src: carrousel1.src, alt: 'Seguros — imagen 1' },
+  { src: carrousel2.src, alt: 'Seguros — imagen 2' },
+  { src: carrousel3.src, alt: 'Seguros — imagen 3' },
+  { src: carrousel4.src, alt: 'Seguros — imagen 4' },
+  { src: carrousel5.src, alt: 'Seguros — imagen 5' },
+];
+
+const total = slides.length;
+---
+
+<section id="inicio" class="flex flex-col">
+  <div
+    x-data="carousel()"
+    x-init="init()"
+    @mouseenter="pause()"
+    @mouseleave="resume()"
+    @touchstart.passive="pause()"
+    @touchend.passive="resume()"
+    class="relative h-[70vh] min-h-[480px] w-full overflow-hidden md:h-[80vh] md:min-h-[600px]"
+  >
+    {slides.map((slide, i) => (
+      <img
+        src={slide.src}
+        alt={slide.alt}
+        x-cloak
+        x-show={`active === ${i}`}
+        x-transition:enter="transition-opacity duration-700 ease-in-out"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition-opacity duration-700 ease-in-out"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+    ))}
+
+    <div class="absolute inset-0 bg-black/55" aria-hidden="true"></div>
+
+    <div class="relative z-10 h-full">
+      <Container class="h-full">
+        <div class="flex h-full flex-col md:flex-row md:items-center md:gap-8">
+          <div class="flex flex-1 items-center pt-16 md:pt-0">
+            <div class="max-w-xl text-white">
+              <h1 class="mt-3 text-4xl font-extrabold leading-tight sm:text-5xl md:text-6xl">
+                PROTEGEMOS
+                <br>
+                LO QUE MÁS
+                <br>
+                <span class="text-[var(--color-primary)]">VALORÁS</span>
+              </h1>
+              <div class="mt-4 h-1 w-20 bg-[var(--color-primary)]"></div>
+              <p class="mt-4 text-xl font-medium opacity-90">
+                Encontramos la cobertura ideal para vos, tu familia o tu empresa. Asesoramiento personalizado y las mejores compañías del país.
+              </p>
+              <ul class="mt-8 flex gap-24">
+                <li class="flex flex-col items-center gap-1 text-[var(--color-primary)]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="h-10 w-10 mb-4"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <span class="text-md font-medium text-white text-center">Asesoramiento<br>personalizado</span>
+                </li>
+                <li class="flex flex-col items-center gap-1 text-[var(--color-primary)]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="h-10 w-10 mb-4"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                  </svg>
+                  <span class="text-md font-medium text-white text-center">Coberturas<br>confiables</span>
+                </li>
+                <li class="flex flex-col items-center gap-1 text-[var(--color-primary)]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="h-10 w-10 mb-4"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  <span class="text-md font-medium text-white text-center">Respuesta<br>rapida</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="hidden md:block md:w-[420px] md:flex-shrink-0">
+            <div class="rounded-xl bg-[var(--color-surface)] p-6 shadow-2xl">
+              <QuoteForm />
+            </div>
+          </div>
+        </div>
+      </Container>
+    </div>
+
+    <button
+      type="button"
+      @click="prev()"
+      class="absolute left-4 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full bg-black/40 p-3 text-white transition-colors hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:flex"
+      aria-label="Imagen anterior"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5"
+        aria-hidden="true"
+      >
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button
+      type="button"
+      @click="next()"
+      class="absolute right-4 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full bg-black/40 p-3 text-white transition-colors hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:flex"
+      aria-label="Siguiente imagen"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5"
+        aria-hidden="true"
+      >
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <div class="absolute bottom-6 left-1/2 z-20 hidden -translate-x-1/2 items-center gap-2 md:flex">
+      {Array.from({ length: total }).map((_, i) => (
+        <button
+          type="button"
+          @click={`goTo(${i})`}
+          x-bind:aria-current={`active === ${i} ? 'true' : 'false'`}
+          x-bind:aria-label={`'Ir a imagen ' + ${i + 1}`}
+          x-bind:class={`active === ${i} ? 'bg-white' : 'bg-white/40 hover:bg-white/70'`}
+          class="h-2.5 w-2.5 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          aria-label={`Ir a imagen ${i + 1}`}
+        ></button>
+      ))}
+    </div>
+  </div>
+
+  <div class="bg-[var(--color-background)] py-12 sm:py-16 md:hidden">
+    <Container>
+      <div class="mx-auto max-w-3xl">
+        <QuoteForm />
+      </div>
+    </Container>
+  </div>
+</section>
+
+<style>
+  [x-cloak] {
+    display: none !important;
+  }
+</style>
+
+<script>
+  import Alpine from 'alpinejs';
+
+  Alpine.data('carousel', () => ({
+    active: 0,
+    total: 5,
+    timer: null as number | null,
+    init(this: { start: () => void }) {
+      this.start();
+    },
+    start(this: { stop: () => void; next: () => void; timer: number | null }) {
+      this.stop();
+      this.timer = window.setInterval(() => this.next(), 5000);
+    },
+    stop(this: { timer: number | null }) {
+      if (this.timer !== null) {
+        window.clearInterval(this.timer);
+        this.timer = null;
+      }
+    },
+    pause(this: { stop: () => void }) {
+      this.stop();
+    },
+    resume(this: { start: () => void }) {
+      this.start();
+    },
+    next(this: { active: number; total: number }) {
+      this.active = (this.active + 1) % this.total;
+    },
+    prev(this: { active: number; total: number }) {
+      this.active = (this.active - 1 + this.total) % this.total;
+    },
+    goTo(this: { active: number }, i: number) {
+      this.active = i;
+    },
+  }));
+
+  window.Alpine = Alpine;
+  Alpine.start();
+</script>

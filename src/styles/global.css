@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #fdbb03;
+  --color-dark: #0a121d;
+  --color-accent-whatsapp: #3ebf65;
+  --color-background: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-text: #0a121d;
+  --color-border: #e5e7eb;
+}
+
+:root.dark {
+  --color-primary: #fdbb03;
+  --color-dark: #0a121d;
+  --color-accent-whatsapp: #3ebf65;
+  --color-background: #0a121d;
+  --color-surface: #131c2b;
+  --color-text: #f8f9fa;
+  --color-border: #1f2937;
+}
+
+html,
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}

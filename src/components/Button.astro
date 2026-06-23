@@ -1,0 +1,35 @@
+---
+type Variant = 'primary' | 'dark';
+
+interface Props {
+  variant: Variant;
+  href?: string;
+  class?: string;
+  ariaLabel?: string;
+}
+
+const { variant, href, class: className = '', ariaLabel } = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2';
+
+const variants: Record<Variant, string> = {
+  primary: 'bg-[var(--color-primary)] text-[var(--color-dark)]',
+  dark: 'bg-[var(--color-dark)] text-white',
+};
+
+const classes = `${base} ${variants[variant]} ${className}`;
+const isLink = typeof href === 'string' && href.length > 0;
+---
+
+{
+  isLink ? (
+    <a href={href} class={classes} aria-label={ariaLabel}>
+      <slot />
+    </a>
+  ) : (
+    <button type="button" class={classes} aria-label={ariaLabel}>
+      <slot />
+    </button>
+  )
+}

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.vscode/
+.idea/
+
+# agent/metodologia — nunca a GitHub
+ARCHITECTURE.md
+CONTEXT.md
+tasks/

@@ -1,0 +1,54 @@
+---
+import logoUrl from '@assets/logo.webp';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const { title, description, ogImage, canonical } = Astro.props;
+
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'http://localhost').toString();
+const resolvedOgImage = ogImage ?? new URL(logoUrl.src, Astro.site ?? 'http://localhost').toString();
+const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'InsuranceAgency',
+  name: 'Estar Seguro',
+  url: siteOrigin || undefined,
+  logo: new URL(logoUrl.src, Astro.site ?? 'http://localhost').toString(),
+  image: new URL(logoUrl.src, Astro.site ?? 'http://localhost').toString(),
+  description,
+  telephone: whatsappNumber || undefined,
+  areaServed: { '@type': 'Country', name: 'Argentina' },
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'AR',
+    addressLocality: '',
+    addressRegion: '',
+    streetAddress: '',
+  },
+  employee: [
+    { '@type': 'Person', name: 'Arias Alberto Gastón' },
+    { '@type': 'Person', name: 'Valeria Melisa Millapinda' },
+  ],
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={resolvedOgImage} />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_AR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={resolvedOgImage} />
+<link rel="canonical" href={canonicalUrl} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
