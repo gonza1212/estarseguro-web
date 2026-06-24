@@ -1,48 +1,48 @@
 # CONTRIBUTING.md
 
-## Filosofía
+## Philosophy
 
-El agente nunca hace commit ni push sin confirmación explícita del desarrollador. Ningún paso de git es automático: cada commit, cada merge, cada push lo dispara el desarrollador, no el agente.
+The agent never commits or pushes without explicit developer confirmation. No git step is automatic: every commit, every merge, every push is triggered by the developer, not the agent.
 
-## Estructura de ramas
+## Branch structure
 
-- `main` — rama estable, siempre deployable
-- `dev` — integración de trabajo en curso
-- `feature/xxx` — features de dominio
-- `spike/xxx` — spikes de infraestructura
-- `fix/xxx` — correcciones de bugs
+- `main` — stable branch, always deployable
+- `dev` — in-progress work integration
+- `feature/xxx` — domain features
+- `spike/xxx` — infrastructure spikes
+- `fix/xxx` — bug fixes
 
-Nunca se commitea directo a `main`.
+Never commit directly to `main`.
 
-## Workflow de feature/spike branch
+## Feature/spike branch workflow
 
-Cinco fases:
+Five phases:
 
-1. **Implementación** — el agente implementa la unidad según el task file correspondiente
-2. **Smoke tests y correcciones** — el desarrollador ejecuta el smoke test manual del task file y reporta lo que falla; el agente corrige. El agente no hace commit durante esta fase, sin importar cuántas correcciones se necesiten
-3. **Commit y merge** — el agente espera confirmación explícita del desarrollador antes de pasar de la Fase 2 a esta. Solo entonces hace commit con el mensaje correspondiente y mergea a `dev`
-4. **Documentación** — se actualiza `CONTEXT.md` con qué se hizo, decisiones tomadas durante la implementación, y la próxima unidad
-5. **Merge a main y sincronización** — cuando el desarrollador lo decide, se mergea `dev` a `main` y se sincroniza
+1. **Implementation** — the agent implements the unit according to the corresponding task file
+2. **Smoke tests and fixes** — the developer runs the manual smoke test from the task file and reports failures; the agent fixes them. The agent does not commit during this phase, regardless of how many fixes are needed
+3. **Commit and merge** — the agent waits for explicit developer confirmation before moving from Phase 2 to this one. Only then does it commit with the corresponding message and merge to `dev`
+4. **Documentation** — `CONTEXT.md` is updated with what was done, decisions made during implementation, and the next unit
+5. **Merge to main and sync** — when the developer decides, `dev` is merged to `main` and synced
 
-## Workflow de fix branch
+## Fix branch workflow
 
-Mismo esquema de cinco fases, adaptado a fixes: implementación del fix → smoke test de la corrección → commit y merge (con confirmación) → documentación en `CONTEXT.md` → merge a main.
+Same five-phase scheme, adapted to fixes: fix implementation → fix smoke test → commit and merge (with confirmation) → documentation in `CONTEXT.md` → merge to main.
 
-## Convención de commits
+## Commit convention
 
-Tipos: `feat`, `fix`, `spike`, `chore`, `test`. Mensajes siempre en español.
+Types: `feat`, `fix`, `spike`, `chore`, `test`, `refactor`, `ux`, `perf`. Messages always in English, imperative mood, concise.
 
-Ejemplo: `spike: configurar Astro, Tailwind v4 y sistema de tema claro/oscuro`
+Example: `spike: configure Astro, Tailwind v4, and light/dark theme system`
 
-## Regla de los 3 intentos
+## 3-attempt rule
 
-Si el agente no resuelve un problema en 3 prompts concretos, se detiene y espera intervención manual del desarrollador. No sigue intentando variaciones de la misma solución indefinidamente.
+If the agent does not solve a problem in 3 concrete prompts, it stops and waits for manual developer intervention. It does not keep trying variations of the same solution indefinitely.
 
-## Convención de nomenclatura de task files
+## Task file naming convention
 
-Formato `[tipo]-[número]-[nombre].md`, dos dígitos, kebab-case.
+Format `[type]-[number]-[name].md`, two digits, kebab-case.
 
-Ejemplos: `spike-01-setup-proyecto.md`, `feature-02-hero-carousel.md`, `fix-01-validacion-formulario.md`
+Examples: `spike-01-setup-proyecto.md`, `feature-02-hero-carousel.md`, `fix-01-form-validation.md`
 
 ## Quality gate
 
@@ -56,14 +56,14 @@ pnpm build
 pnpm lint
 ```
 
-**Tests automatizados:** no aplica en este proyecto. Sin test runner ni suite de tests automatizados.
+**Automated tests:** not applicable in this project. No test runner or automated test suite.
 
-**Smoke tests:** manuales, documentados en cada task file como lista de pasos concretos y verificables. No hay smoke tests automatizados ni framework de testing de UI/integración.
+**Smoke tests:** manual, documented in each task file as a list of concrete, verifiable steps. No automated smoke tests or UI/integration testing framework.
 
-**Versionado:** no aplica. El proyecto no usa versionado semántico ni expone número de versión en runtime.
+**Versioning:** not applicable. The project does not use semantic versioning or expose a runtime version number.
 
-## Archivos que siempre van al agente
+## Files always given to the agent
 
 - `ARCHITECTURE.md`
 - `CONTEXT.md`
-- Task file de la unidad activa
+- Task file of the active unit
