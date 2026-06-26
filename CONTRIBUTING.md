@@ -1,69 +1,53 @@
-# CONTRIBUTING.md
+# Contributing
 
-## Philosophy
+Este repositorio es una pieza de portfolio personal — no es código abierto, no es un proyecto colaborativo, ni siquiera en equipo. Aún así, el developer mantiene un workflow disciplinado para tener trazabilidad de los cambios y poder razonar sobre ellos en sesiones futuras. Esta nota documenta ese workflow para referencia interna del developer y del coding agent.
 
-The agent never commits or pushes without explicit developer confirmation. No git step is automatic: every commit, every merge, every push is triggered by the developer, not the agent.
+## Ramas y workflow
 
-## Branch structure
+- `main` — branch de producción (cada push dispara el deploy a Hostinger via GitHub Actions)
+- `dev` — branch de integración
+- `feature/xx-name` — features nuevas
+- `spike/xx-name` — spikes de infraestructura
+- `fix/xx-name` — bug fixes
 
-- `main` — stable branch, always deployable
-- `dev` — in-progress work integration
-- `feature/xxx` — domain features
-- `spike/xxx` — infrastructure spikes
-- `fix/xxx` — bug fixes
+**Excepción documentada:** commits directos a `main` están autorizados únicamente para cambios puramente documentales (por ejemplo `README.md` o metadata de GitHub vía `gh repo edit`). Para código, el flujo es: `feature/xx` → `dev` (--no-ff) → release `dev` → `main`.
 
-Never commit directly to `main`.
+## Workflow de feature/spike/fix
 
-## Feature/spike branch workflow
+Cinco fases:
 
-Five phases:
+1. **Implementación** — el agente implementa la unidad según el task file correspondiente
+2. **Smoke tests y fixes** — el developer corre el smoke test manual y reporta fallos; el agente arregla. El agente NO commitea en esta fase, sin importar cuántos fixes haya
+3. **Commit y merge a dev** — el agente espera confirmación explícita del developer. Solo entonces commitea con el mensaje correspondiente y mergea a `dev` (--no-ff)
+4. **Documentación** — `CONTEXT.md` se actualiza con lo hecho, decisiones tomadas, y la siguiente unidad
+5. **Release a main** — cuando el developer decide, `dev` se mergea a `main` y se pushea (dispara el deploy a Hostinger)
 
-1. **Implementation** — the agent implements the unit according to the corresponding task file
-2. **Smoke tests and fixes** — the developer runs the manual smoke test from the task file and reports failures; the agent fixes them. The agent does not commit during this phase, regardless of how many fixes are needed
-3. **Commit and merge** — the agent waits for explicit developer confirmation before moving from Phase 2 to this one. Only then does it commit with the corresponding message and merge to `dev`
-4. **Documentation** — `CONTEXT.md` is updated with what was done, decisions made during implementation, and the next unit
-5. **Merge to main and sync** — when the developer decides, `dev` is merged to `main` and synced
+## Convención de commits
 
-## Fix branch workflow
+- Tipos: `feat`, `fix`, `spike`, `chore`, `test`, `refactor`, `ux`, `perf`
+- Mensajes en inglés, modo imperativo, concisos
+- Ejemplo: `feat: agregar sección Compañías con animación de entrada`
 
-Same five-phase scheme, adapted to fixes: fix implementation → fix smoke test → commit and merge (with confirmation) → documentation in `CONTEXT.md` → merge to main.
+## Regla de 3 intentos
 
-## Commit convention
+Si el agente no resuelve un problema en 3 prompts concretos, para y espera intervención manual del developer. No sigue intentando variaciones de la misma solución indefinidamente.
 
-Types: `feat`, `fix`, `spike`, `chore`, `test`, `refactor`, `ux`, `perf`. Messages always in English, imperative mood, concise.
+## Task files
 
-Example: `spike: configure Astro, Tailwind v4, and light/dark theme system`
-
-## 3-attempt rule
-
-If the agent does not solve a problem in 3 concrete prompts, it stops and waits for manual developer intervention. It does not keep trying variations of the same solution indefinitely.
-
-## Task file naming convention
-
-Format `[type]-[number]-[name].md`, two digits, kebab-case.
-
-Examples: `spike-01-setup-proyecto.md`, `feature-02-hero-carousel.md`, `fix-01-form-validation.md`
+Formato `[type]-[number]-[name].md`, dos dígitos, kebab-case. Ejemplos: `spike-01-setup-proyecto.md`, `feature-02-hero-carousel.md`, `fix-01-form-validation.md`.
 
 ## Quality gate
 
-**Build:**
 ```
-pnpm build
-```
-
-**Linting:**
-```
-pnpm lint
+pnpm build        # build estático → dist/
+pnpm lint         # ESLint
+pnpm astro check  # type checking
 ```
 
-**Automated tests:** not applicable in this project. No test runner or automated test suite.
+Los tres deben pasar antes de cualquier commit. Tests automatizados no aplican en este proyecto (verificación via smoke tests manuales documentados en cada task file).
 
-**Smoke tests:** manual, documented in each task file as a list of concrete, verifiable steps. No automated smoke tests or UI/integration testing framework.
+## Archivos siempre provistos al agente
 
-**Versioning:** not applicable. The project does not use semantic versioning or expose a runtime version number.
-
-## Files always given to the agent
-
-- `ARCHITECTURE.md`
-- `CONTEXT.md`
-- Task file of the active unit
+- `ARCHITECTURE.md` — modelo del sistema, decisiones frozen, items pendientes
+- `CONTEXT.md` — estado vivo del proyecto, timeline, decisiones por unidad
+- Task file de la unidad activa (en `tasks/`)
