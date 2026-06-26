@@ -11,7 +11,8 @@ pnpm-debug.log*
 .vscode/
 .idea/
 
-# agent/metodologia — nunca a GitHub
+# agent/methodology — never to GitHub
 ARCHITECTURE.md
 CONTEXT.md
+AGENTS.md
 tasks/

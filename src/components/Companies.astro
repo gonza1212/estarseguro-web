@@ -1,0 +1,103 @@
+---
+import type { ImageMetadata } from 'astro';
+import Container from '@components/Container.astro';
+import SectionTitle from '@components/SectionTitle.astro';
+import { companies } from '@data/companies';
+import sanCristobalLogo from '@assets/san-cristobal.webp';
+import mercantilLogo from '@assets/mercantil.webp';
+import andinaLogo from '@assets/andina.webp';
+import rivadaviaLogo from '@assets/rivadavia.webp';
+import expertaLogo from '@assets/experta.webp';
+
+const logoMap: Record<string, ImageMetadata> = {
+  'san-cristobal': sanCristobalLogo,
+  mercantil: mercantilLogo,
+  andina: andinaLogo,
+  rivadavia: rivadaviaLogo,
+  experta: expertaLogo,
+};
+---
+
+<section
+  id="companias"
+  data-companies
+  class="bg-[var(--color-background)] py-16 sm:py-20"
+>
+  <Container>
+    <div class="flex flex-col items-center">
+      <div
+        class="companies-anim-item w-full"
+        style="--anim-delay: 0ms"
+      >
+        <SectionTitle
+          eyebrow="Compañías"
+          title="Compañías con las que trabajamos"
+          align="center"
+        />
+      </div>
+      <div
+        class="mt-12 grid w-full grid-cols-1 items-center gap-x-8 gap-y-10 sm:grid-cols-3 md:grid-cols-5"
+      >
+        {
+          companies.map((company, i) => (
+            <div
+              class="companies-anim-item flex items-center justify-center"
+              style={`--anim-delay: ${(i + 1) * 200}ms`}
+            >
+              <img
+                src={logoMap[company.logo].src}
+                alt={company.name}
+                loading="lazy"
+                decoding="async"
+                class="h-40 w-auto max-w-full object-contain"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .companies-anim-item {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 600ms ease-out,
+      transform 600ms ease-out;
+    transition-delay: var(--anim-delay, 0ms);
+  }
+  [data-companies].is-visible .companies-anim-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  function initCompaniesAnimation(): void {
+    const section = document.querySelector('[data-companies]');
+    if (!(section instanceof HTMLElement)) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            section.classList.add('is-visible');
+            observer.unobserve(section);
+            return;
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(section);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCompaniesAnimation);
+  } else {
+    initCompaniesAnimation();
+  }
+</script>
