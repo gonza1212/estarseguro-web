@@ -5,9 +5,9 @@ export type Company = {
 };
 
 export const companies: Company[] = [
-  { id: 'san-cristobal', name: 'San Cristóbal Seguros', logo: 'san-cristobal' },
   { id: 'mercantil', name: 'Mercantil Andina', logo: 'mercantil' },
-  { id: 'andina', name: 'Andina ART', logo: 'andina' },
+  { id: 'san-cristobal', name: 'San Cristóbal Seguros', logo: 'san-cristobal' },
   { id: 'rivadavia', name: 'Rivadavia', logo: 'rivadavia' },
+  { id: 'andina', name: 'Andina ART', logo: 'andina' },
   { id: 'experta', name: 'Experta Seguros', logo: 'experta' },
 ];
