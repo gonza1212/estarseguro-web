@@ -6,7 +6,7 @@ import Container from '@components/Container.astro';
 const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '';
 const whatsappHref = whatsappNumber ? `https://wa.me/${whatsappNumber}` : 'https://wa.me/';
 const instagramUrl = import.meta.env.PUBLIC_INSTAGRAM_URL ?? '#';
-const facebookUrl = import.meta.env.PUBLIC_FACEBOOK_URL ?? '#';
+const sanCristobalUrl = import.meta.env.PUBLIC_SAN_CRISTOBAL_URL ?? '#';
 const displayPhone = whatsappNumber
   ? `+${whatsappNumber.replace(/^(\d{2})(\d)(\d{2})(\d{4})(\d{0,4})$/, '$1 $2 $3 $4-$5').trim()}`
   : '+54 9 11 0000-0000';
@@ -154,8 +154,8 @@ const navLinks = [
       <div class="flex flex-col items-center gap-3 py-5 sm:flex-row sm:gap-6">
         <div class="flex items-center gap-3">
           <a
-            href={facebookUrl}
-            aria-label="Facebook"
+            href={sanCristobalUrl}
+            aria-label="San Cristóbal"
             class="text-white/70 transition-opacity hover:opacity-100"
             target="_blank"
             rel="noopener noreferrer"
@@ -163,13 +163,17 @@ const navLinks = [
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              fill="currentColor"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               class="h-5 w-5"
               aria-hidden="true"
             >
-              <path
-                d="M22 12a10 10 0 1 0-11.6 9.87v-6.98H7.9V12h2.5V9.8c0-2.47 1.47-3.83 3.72-3.83 1.08 0 2.21.19 2.21.19v2.42h-1.24c-1.23 0-1.61.76-1.61 1.54V12h2.74l-.44 2.89h-2.3v6.98A10 10 0 0 0 22 12z"
-              ></path>
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
             </svg>
           </a>
           <a
