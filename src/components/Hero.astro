@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import Container from '@components/Container.astro';
 import QuoteForm from '@components/QuoteForm.astro';
 import carrousel1 from '@assets/carrousel-1.webp';
@@ -7,12 +9,12 @@ import carrousel3 from '@assets/carrousel-3.webp';
 import carrousel4 from '@assets/carrousel-4.webp';
 import carrousel5 from '@assets/carrousel-5.webp';
 
-const slides = [
-  { src: carrousel1.src, alt: 'Seguros — imagen 1' },
-  { src: carrousel2.src, alt: 'Seguros — imagen 2' },
-  { src: carrousel3.src, alt: 'Seguros — imagen 3' },
-  { src: carrousel4.src, alt: 'Seguros — imagen 4' },
-  { src: carrousel5.src, alt: 'Seguros — imagen 5' },
+const slides: Array<{ asset: ImageMetadata; alt: string }> = [
+  { asset: carrousel1, alt: 'Seguros — imagen 1' },
+  { asset: carrousel2, alt: 'Seguros — imagen 2' },
+  { asset: carrousel3, alt: 'Seguros — imagen 3' },
+  { asset: carrousel4, alt: 'Seguros — imagen 4' },
+  { asset: carrousel5, alt: 'Seguros — imagen 5' },
 ];
 
 const total = slides.length;
@@ -29,8 +31,8 @@ const total = slides.length;
     class="relative h-[70vh] min-h-[480px] w-full overflow-hidden md:h-[80vh] md:min-h-[600px]"
   >
     {slides.map((slide, i) => (
-      <img
-        src={slide.src}
+      <Image
+        src={slide.asset}
         alt={slide.alt}
         x-cloak
         x-show={`active === ${i}`}
@@ -41,6 +43,12 @@ const total = slides.length;
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         class="absolute inset-0 h-full w-full object-cover"
+        widths={[640, 960, 1280, 1920]}
+        sizes="100vw"
+        loading={i === 0 ? 'eager' : 'lazy'}
+        decoding={i === 0 ? 'sync' : 'async'}
+        fetchpriority={i === 0 ? 'high' : 'auto'}
+        quality={80}
       />
     ))}
 

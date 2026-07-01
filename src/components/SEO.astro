@@ -1,5 +1,6 @@
 ---
-import logoUrl from '@assets/logo.webp';
+import { getImage } from 'astro:assets';
+import logo from '@assets/logo.webp';
 
 interface Props {
   title: string;
@@ -12,26 +13,24 @@ const { title, description, ogImage, canonical } = Astro.props;
 
 const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'http://localhost').toString();
-const resolvedOgImage = ogImage ?? new URL(logoUrl.src, Astro.site ?? 'http://localhost').toString();
+const logoAsset = await getImage({ src: logo, width: 256, format: 'webp' });
+const resolvedLogoUrl = new URL(logoAsset.src, Astro.site ?? 'http://localhost').toString();
+const resolvedOgImage = ogImage ?? resolvedLogoUrl;
 const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '';
+const publicEmail = 'contacto@estarseguro.com';
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'InsuranceAgency',
+  '@id': `${siteOrigin}#insurance-agency`,
   name: 'Estar Seguro',
   url: siteOrigin || undefined,
-  logo: new URL(logoUrl.src, Astro.site ?? 'http://localhost').toString(),
-  image: new URL(logoUrl.src, Astro.site ?? 'http://localhost').toString(),
+  logo: resolvedLogoUrl,
+  image: resolvedLogoUrl,
   description,
   telephone: whatsappNumber || undefined,
+  email: publicEmail,
   areaServed: { '@type': 'Country', name: 'Argentina' },
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'AR',
-    addressLocality: '',
-    addressRegion: '',
-    streetAddress: '',
-  },
   employee: [
     { '@type': 'Person', name: 'Arias Alberto Gastón' },
     { '@type': 'Person', name: 'Valeria Melisa Millapinda' },
