@@ -37,7 +37,7 @@ const logoMap: Record<string, ImageMetadata> = {
         />
       </div>
       <div
-        class="mt-12 grid w-full grid-cols-1 items-center gap-x-8 gap-y-10 sm:grid-cols-3 md:grid-cols-5"
+        class="mt-12 grid w-full grid-cols-1 items-center gap-x-6 gap-y-8 px-2 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-10 sm:px-0 md:grid-cols-5"
       >
         {
           companies.map((company, i) => (
@@ -50,9 +50,9 @@ const logoMap: Record<string, ImageMetadata> = {
                 alt={company.name}
                 loading="lazy"
                 decoding="async"
-                widths={[160, 320]}
-                sizes="(min-width: 640px) 160px, 50vw"
-                class="h-40 w-auto max-w-full object-contain"
+                widths={[160, 320, 480, 640]}
+                sizes="(min-width: 1024px) 200px, (min-width: 640px) 160px, 50vw"
+                class="h-20 w-auto max-w-full object-contain sm:h-24"
               />
             </div>
           ))
