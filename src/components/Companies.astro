@@ -1,5 +1,6 @@
 ---
 import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import Container from '@components/Container.astro';
 import SectionTitle from '@components/SectionTitle.astro';
 import { companies } from '@data/companies';
@@ -44,11 +45,13 @@ const logoMap: Record<string, ImageMetadata> = {
               class="companies-anim-item flex items-center justify-center"
               style={`--anim-delay: ${(i + 1) * 200}ms`}
             >
-              <img
-                src={logoMap[company.logo].src}
+              <Image
+                src={logoMap[company.logo]}
                 alt={company.name}
                 loading="lazy"
                 decoding="async"
+                widths={[160, 320]}
+                sizes="(min-width: 640px) 160px, 50vw"
                 class="h-40 w-auto max-w-full object-contain"
               />
             </div>
