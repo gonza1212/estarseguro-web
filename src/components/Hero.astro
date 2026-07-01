@@ -48,7 +48,7 @@ const total = slides.length;
         loading={i === 0 ? 'eager' : 'lazy'}
         decoding={i === 0 ? 'sync' : 'async'}
         fetchpriority={i === 0 ? 'high' : 'auto'}
-        quality={80}
+        quality={90}
       />
     ))}
 
@@ -70,7 +70,7 @@ const total = slides.length;
               <p class="mt-4 text-xl font-medium opacity-90">
                 Encontramos la cobertura ideal para vos, tu familia o tu empresa. Asesoramiento personalizado y las mejores compañías del país.
               </p>
-              <ul class="mt-8 flex gap-24">
+              <ul class="mt-8 grid grid-cols-3 gap-3 sm:gap-8 md:gap-16">
                 <li class="flex flex-col items-center gap-1 text-[var(--color-primary)]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
