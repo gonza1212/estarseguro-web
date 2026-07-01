@@ -20,9 +20,32 @@ const diferenciales = [
 ];
 ---
 
-<section id="nosotros">
-  <div class="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-[35%_65%]">
-    <div class="bg-[var(--color-dark)] px-6 py-16 text-white sm:px-8 sm:py-20 lg:px-28">
+<section id="nosotros" class="relative">
+  <div
+    class="absolute inset-0 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[35%_65%]"
+    aria-hidden="true"
+  >
+    <div class="bg-[var(--color-dark)]"></div>
+    <div class="relative">
+      <Image
+        src={nosotrosImg}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 1024px) 65vw, 100vw"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-l from-transparent via-black/10 to-[var(--color-dark)]/60"
+      ></div>
+    </div>
+  </div>
+
+  <div
+    class="relative mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2 xl:grid-cols-[35%_65%]"
+  >
+    <div class="bg-[var(--color-dark)] px-6 py-16 text-white sm:px-8 sm:py-20 xl:px-28">
       <SectionTitle
         eyebrow="¿Por qué elegirnos?"
         title="Asesoramiento que marca la diferencia"
@@ -57,19 +80,6 @@ const diferenciales = [
     </div>
 
     <div class="relative min-h-[400px] lg:min-h-0">
-      <Image
-        src={nosotrosImg}
-        alt=""
-        loading="lazy"
-        decoding="async"
-        widths={[480, 800, 1200]}
-        sizes="(min-width: 1024px) 65vw, 100vw"
-        class="absolute inset-0 h-full w-full object-cover"
-      />
-      <div
-        class="absolute inset-0 bg-gradient-to-l from-transparent via-black/10 to-[var(--color-dark)]/60"
-        aria-hidden="true"
-      ></div>
       <div
         class="absolute bottom-4 left-4 right-4 rounded-lg bg-[var(--color-primary)] p-6 text-[var(--color-dark)] shadow-2xl sm:bottom-8 sm:right-8 sm:left-auto sm:max-w-lg sm:p-8"
       >
@@ -109,5 +119,11 @@ const diferenciales = [
 <style is:global>
   #nosotros h2 {
     color: #ffffff;
+  }
+  @media (min-width: 1280px) {
+    #nosotros h2 {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
   }
 </style>

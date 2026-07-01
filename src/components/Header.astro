@@ -27,14 +27,17 @@ const whatsappHref = whatsappNumber
       color: var(--color-primary);
       border-bottom-color: var(--color-primary);
     }
+    #mobile-menu a[aria-current='page'] {
+      color: var(--color-primary);
+    }
     .mobile-menu {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
       pointer-events: none;
       transition:
-        max-height 750ms ease,
-        opacity 750ms ease;
+        max-height 300ms ease,
+        opacity 200ms ease;
     }
     .mobile-menu.is-open {
       max-height: 500px;
@@ -69,33 +72,12 @@ const whatsappHref = whatsappNumber
           INICIO
         </a>
 
-        <details class="group relative">
-          <summary
-            class="nav-link flex cursor-pointer list-none items-center gap-1 text-sm font-bold [&::-webkit-details-marker]:hidden"
-          >
-            SEGUROS
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              class="h-4 w-4 transition-transform group-open:rotate-180"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.39a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </summary>
-          <div
-            class="absolute left-0 top-full mt-2 min-w-48 rounded-md border border-[var(--color-border)] bg-[var(--color-background)] p-2 shadow-lg"
-          >
-            <p class="px-3 py-2 text-xs text-[var(--color-text)] opacity-60">
-              Próximamente
-            </p>
-          </div>
-        </details>
+        <a
+          href="#seguros"
+          class="nav-link text-sm font-bold"
+        >
+          SEGUROS
+        </a>
 
         <a
           href="#nosotros"
