@@ -36,6 +36,20 @@ const jsonLd = {
     { '@type': 'Person', name: 'Valeria Melisa Millapinda' },
   ],
 };
+
+const authorJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${siteOrigin}#webpage`,
+  url: siteOrigin || undefined,
+  name: title,
+  isPartOf: { '@id': `${siteOrigin}#website` },
+  author: {
+    '@type': 'Organization',
+    name: 'Rotative',
+    url: 'https://rotative.com.ar',
+  },
+};
 ---
 
 <title>{title}</title>
@@ -52,3 +66,4 @@ const jsonLd = {
 <meta name="twitter:image" content={resolvedOgImage} />
 <link rel="canonical" href={canonicalUrl} />
 <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(authorJsonLd)} />
