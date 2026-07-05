@@ -26,3 +26,7 @@ El sitio se deploya automáticamente a Hostinger via GitHub Actions en cada push
 ---
 
 [estarseguro.com.ar](https://estarseguro.com.ar)
+
+---
+
+Diseñado y desarrollado por [Rotative](https://rotative.com.ar).
