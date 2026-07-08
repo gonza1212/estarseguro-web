@@ -1,6 +1,6 @@
 ---
 import { getImage } from 'astro:assets';
-import logo from '@assets/logo.webp';
+import logoLight from '@assets/logo_light.webp';
 
 interface Props {
   title: string;
@@ -13,7 +13,7 @@ const { title, description, ogImage, canonical } = Astro.props;
 
 const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'http://localhost').toString();
-const logoAsset = await getImage({ src: logo, width: 256, format: 'webp' });
+const logoAsset = await getImage({ src: logoLight, width: 256, format: 'webp' });
 const resolvedLogoUrl = new URL(logoAsset.src, Astro.site ?? 'http://localhost').toString();
 const resolvedOgImage = ogImage ?? resolvedLogoUrl;
 const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '';

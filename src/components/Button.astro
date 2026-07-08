@@ -11,11 +11,11 @@ interface Props {
 const { variant, href, class: className = '', ariaLabel } = Astro.props;
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2';
+  'inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-[var(--color-primary)] text-[var(--color-dark)]',
-  dark: 'bg-[var(--color-dark)] text-white',
+  primary: 'bg-[var(--color-primary)] text-[var(--color-dark)] hover:opacity-90',
+  dark: 'bg-[var(--color-dark)] text-white hover:text-[var(--color-primary)] focus-visible:text-[var(--color-primary)]',
 };
 
 const classes = `${base} ${variants[variant]} ${className}`;

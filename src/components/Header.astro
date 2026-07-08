@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '@assets/logo.webp';
+import logoLight from '@assets/logo_light.webp';
 import Button from '@components/Button.astro';
 import Container from '@components/Container.astro';
 
@@ -49,17 +49,11 @@ const whatsappHref = whatsappNumber
     <div class="flex h-28 items-center gap-4">
       <a
         href="/"
-        class="flex flex-col items-start"
+        class="group flex flex-col items-start"
         aria-label="Estar Seguro — Inicio"
       >
-        <span class="flex items-center gap-3">
-          <Image src={logo} alt="Logo de Estar Seguro" width={64} height={64} class="h-16 w-16 w-auto" />
-          <span class="flex flex-col items-start leading-none">
-            <span class="block text-4xl font-extrabold uppercase leading-none tracking-tight text-[var(--color-dark)]">Estar</span>
-            <span class="mt-px block text-3xl font-extrabold uppercase leading-none tracking-tight text-[var(--color-primary)]">Seguro</span>
-          </span>
-        </span>
-        <span class="mt-2 text-[14px] font-bold text-[var(--color-text)]">productores asesores de seguros</span>
+        <Image src={logoLight} alt="Logo de Estar Seguro" width={511} height={229} class="h-16 w-auto transition-transform duration-150 group-hover:scale-105 group-focus-visible:scale-105" />
+        <span class="mt-2 text-[14px] font-bold text-[var(--color-text)] transition-colors duration-150 group-hover:text-[var(--color-primary)] group-focus-visible:text-[var(--color-primary)]">productores asesores de seguros</span>
       </a>
 
       <div class="ml-auto hidden items-center gap-6 md:flex">
