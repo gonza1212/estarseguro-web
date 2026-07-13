@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import MainLayout from '@layouts/MainLayout.astro';
+import Container from '@components/Container.astro';
+import ViajeroForm from '@components/ViajeroForm.astro';
+import assistCardLogo from '@assets/assist-card.webp';
+import universalAssistanceLogo from '@assets/universal-assistance.webp';
+import europAssistanceLogo from '@assets/europ-assistance.webp';
+import tarjetaCelesteLogo from '@assets/tarjeta-celeste.webp';
+
+const logoCompanies = [
+  { src: assistCardLogo, alt: 'Assist Card' },
+  { src: universalAssistanceLogo, alt: 'Universal Assistance' },
+  { src: europAssistanceLogo, alt: 'Europ Assistance' },
+  { src: tarjetaCelesteLogo, alt: 'Tarjeta Celeste' },
+];
+
+const coverages = [
+  'Asistencia médica',
+  'Medicamentos',
+  'Asistencia en vuelos',
+  'Pérdida de equipaje',
+];
+---
+
+<MainLayout
+  title="Asistencia al Viajero | Estar Seguro"
+  description="Cotizá tu asistencia al viajero con las mejores compañías. Asistencia médica, medicamentos, asistencia en vuelos y cobertura por pérdida de equipaje."
+>
+  <section class="bg-[var(--color-background)] py-12 sm:py-20">
+    <Container>
+      <div class="mx-auto max-w-3xl">
+        <h1 class="text-3xl font-extrabold leading-tight text-[var(--color-text)] sm:text-4xl">
+          Cotizá tu asistencia al viajero
+        </h1>
+        <p class="mt-4 text-lg text-[var(--color-text)] opacity-80">
+          Contanos a dónde vas y te ofrecemos los planes más convenientes para tu viaje.
+        </p>
+
+        <div class="mt-6 grid grid-cols-1 gap-y-2 sm:grid-cols-2 sm:gap-x-6">
+          {
+            coverages.map((item) => (
+              <div class="flex items-center gap-3 text-[var(--color-text)] opacity-80">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  class="h-5 w-5 shrink-0 text-[var(--color-primary)]"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  stroke="none"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline
+                    points="8 12 11 15 16 9"
+                    fill="none"
+                    stroke="var(--color-dark)"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></polyline>
+                </svg>
+                <span class="text-base">{item}</span>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="mt-10 border-t border-[var(--color-border)] pt-8">
+          <p class="text-center text-sm font-semibold uppercase tracking-wide text-[var(--color-text)] opacity-60">
+            Trabajamos con las mejores compañías de asistencia al viajero
+          </p>
+          <div class="mt-6 grid grid-cols-1 items-center justify-items-center gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+            {
+              logoCompanies.map((company) => (
+                <Image
+                  src={company.src}
+                  alt={company.alt}
+                  loading="lazy"
+                  decoding="async"
+                  widths={[160, 320]}
+                  sizes="(min-width: 640px) 160px, 120px"
+                  class="h-16 w-auto max-w-[140px] object-contain opacity-80 transition-opacity hover:opacity-100"
+                />
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="mt-10 rounded-xl bg-[var(--color-surface)] p-6 shadow-sm sm:p-8">
+          <ViajeroForm />
+        </div>
+      </div>
+    </Container>
+  </section>
+</MainLayout>

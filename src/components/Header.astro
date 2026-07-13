@@ -61,27 +61,26 @@ const whatsappHref = whatsappNumber
         <nav class="flex items-center gap-6" aria-label="Navegación principal">
         <a
           href="/"
-          aria-current="page"
           class="nav-link text-sm font-bold"
         >
           INICIO
         </a>
 
         <a
-          href="#seguros"
+          href="/#seguros"
           class="nav-link text-sm font-bold"
         >
           SEGUROS
         </a>
 
         <a
-          href="#nosotros"
+          href="/#nosotros"
           class="nav-link text-sm font-bold"
         >
           NOSOTROS
         </a>
         <a
-          href="#companias"
+          href="/#companias"
           class="nav-link text-sm font-bold"
         >
           COMPAÑÍAS
@@ -167,19 +166,19 @@ const whatsappHref = whatsappNumber
           INICIO
         </a>
         <a
-          href="#seguros"
+          href="/#seguros"
           class="rounded-md px-3 py-2 text-sm font-medium text-[var(--color-text)] hover:bg-[var(--color-surface)]"
         >
           SEGUROS
         </a>
         <a
-          href="#nosotros"
+          href="/#nosotros"
           class="rounded-md px-3 py-2 text-sm font-medium text-[var(--color-text)] hover:bg-[var(--color-surface)]"
         >
           NOSOTROS
         </a>
         <a
-          href="#companias"
+          href="/#companias"
           class="rounded-md px-3 py-2 text-sm font-medium text-[var(--color-text)] hover:bg-[var(--color-surface)]"
         >
           COMPAÑÍAS
@@ -248,13 +247,14 @@ const whatsappHref = whatsappNumber
       if (!href) return;
       if (href === '/') {
         inicioLink = link;
+      } else if (href.startsWith('/#')) {
+        const section = document.getElementById(href.slice(2));
+        if (section) sectionLinks.push({ link, section });
       } else if (href.startsWith('#')) {
         const section = document.getElementById(href.slice(1));
         if (section) sectionLinks.push({ link, section });
       }
     });
-
-    if (sectionLinks.length === 0) return;
 
     const setActive = (activeLink: HTMLAnchorElement | null): void => {
       navLinks.forEach((link) => {
@@ -266,29 +266,33 @@ const whatsappHref = whatsappNumber
       });
     };
 
-    const initialHash = window.location.hash;
-    if (initialHash) {
-      const match = sectionLinks.find(({ section }) => section.id === initialHash.slice(1));
-      if (match) setActive(match.link);
+    setActive(inicioLink);
+
+    if (sectionLinks.length > 0) {
+      const initialHash = window.location.hash;
+      if (initialHash) {
+        const match = sectionLinks.find(({ section }) => section.id === initialHash.slice(1));
+        if (match) setActive(match.link);
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+          if (visible[0]) {
+            const match = sectionLinks.find(({ section }) => section === visible[0].target);
+            if (match) setActive(match.link);
+          } else {
+            setActive(inicioLink);
+          }
+        },
+        { rootMargin: '-30% 0px -70% 0px', threshold: 0 }
+      );
+
+      sectionLinks.forEach(({ section }) => observer.observe(section));
     }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        if (visible[0]) {
-          const match = sectionLinks.find(({ section }) => section === visible[0].target);
-          if (match) setActive(match.link);
-        } else {
-          setActive(inicioLink);
-        }
-      },
-      { rootMargin: '-30% 0px -70% 0px', threshold: 0 }
-    );
-
-    sectionLinks.forEach(({ section }) => observer.observe(section));
   }
 
   if (document.readyState === 'loading') {

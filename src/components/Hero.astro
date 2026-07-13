@@ -3,21 +3,21 @@ import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Container from '@components/Container.astro';
 import QuoteForm from '@components/QuoteForm.astro';
-import carrousel1 from '@assets/carrousel-1.webp';
-import carrousel2 from '@assets/carrousel-2.webp';
-import carrousel3 from '@assets/carrousel-3.webp';
-import carrousel4 from '@assets/carrousel-4.webp';
-import carrousel5 from '@assets/carrousel-5.webp';
+import { insurances } from '@data/insurances';
+import carrouselAuto from '@assets/carrousel-auto.webp';
+import carrouselViajero from '@assets/carrousel-viajero.webp';
+import carrouselMaquinaria from '@assets/carrousel-maquinaria.webp';
 
 const slides: Array<{ asset: ImageMetadata; alt: string }> = [
-  { asset: carrousel1, alt: 'Seguros — imagen 1' },
-  { asset: carrousel2, alt: 'Seguros — imagen 2' },
-  { asset: carrousel3, alt: 'Seguros — imagen 3' },
-  { asset: carrousel4, alt: 'Seguros — imagen 4' },
-  { asset: carrousel5, alt: 'Seguros — imagen 5' },
+  { asset: carrouselAuto, alt: 'Seguro de auto con descuento' },
+  { asset: carrouselViajero, alt: 'Asistencia al viajero' },
+  { asset: carrouselMaquinaria, alt: 'Seguros de maquinaria y otros' },
 ];
 
 const total = slides.length;
+
+const insuranceTags = insurances.map((i) => i.name).join(' · ');
+const sancristobalUrl = 'https://www.sancristobal.com.ar/pas/estarseguro';
 ---
 
 <section id="inicio" class="flex flex-col">
@@ -54,82 +54,86 @@ const total = slides.length;
 
     <div class="absolute inset-0 bg-black/55" aria-hidden="true"></div>
 
-    <div class="relative z-10 h-full">
-      <Container class="h-full">
-        <div class="flex h-full flex-col md:flex-row md:items-center md:gap-8">
-          <div class="flex flex-1 items-center pt-10 md:pt-0">
-            <div class="max-w-xl text-white">
-              <h1 class="mt-3 text-4xl font-extrabold leading-tight sm:text-5xl md:text-6xl">
-                PROTEGEMOS
-                <br>
-                LO QUE MÁS
-                <br>
-                <span class="text-[var(--color-primary)]">VALORÁS</span>
-              </h1>
-              <div class="mt-4 h-1 w-20 bg-[var(--color-primary)]"></div>
-              <p class="mt-4 text-xl font-medium opacity-90">
-                Encontramos la cobertura ideal para vos, tu familia o tu empresa. Asesoramiento personalizado y las mejores compañías del país.
-              </p>
-              <ul class="mt-8 grid grid-cols-3 gap-3 sm:gap-8 md:gap-16">
-                <li class="flex flex-col items-center gap-1 text-[var(--color-primary)]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="h-10 w-10 mb-4"
-                    aria-hidden="true"
-                  >
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                  <span class="text-md font-medium text-white text-center">Asesoramiento<br>personalizado</span>
-                </li>
-                <li class="flex flex-col items-center gap-1 text-[var(--color-primary)]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="h-10 w-10 mb-4"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    <path d="m9 12 2 2 4-4"></path>
-                  </svg>
-                  <span class="text-md font-medium text-white text-center">Coberturas<br>confiables</span>
-                </li>
-                <li class="flex flex-col items-center gap-1 text-[var(--color-primary)]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="h-10 w-10 mb-4"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                  <span class="text-md font-medium text-white text-center">Respuesta<br>rapida</span>
-                </li>
-              </ul>
-            </div>
+    <div class="relative z-10 flex h-full items-center">
+      <Container class="relative w-full h-full">
+        <div
+          x-show="active === 0"
+          x-transition:enter="transition-all duration-700 ease-in-out delay-200"
+          x-transition:enter-start="opacity-0 translate-y-4"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition-all duration-500 ease-in-out"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 -translate-y-4"
+          class="absolute inset-0 flex items-center"
+        >
+          <div>
+            <h2 class="text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
+              Asegurá tu auto
+              <br />
+              <span class="text-[var(--color-primary)]">con descuento</span>
+            </h2>
+            <a
+              href={sancristobalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-6 inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-[var(--color-dark)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            >
+              Acceder al descuento
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" aria-hidden="true"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7"></polyline><polyline points="17 7 17 17"></polyline></svg>
+            </a>
           </div>
+        </div>
 
-          <div class="hidden xl:block xl:w-[420px] xl:flex-shrink-0">
-            <div class="rounded-xl bg-[var(--color-surface)] p-6 shadow-2xl">
-              <QuoteForm />
-            </div>
+        <div
+          x-show="active === 1"
+          x-transition:enter="transition-all duration-700 ease-in-out delay-200"
+          x-transition:enter-start="opacity-0 translate-y-4"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition-all duration-500 ease-in-out"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 -translate-y-4"
+          class="absolute inset-0 flex items-center"
+        >
+          <div>
+            <h2 class="text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
+              Cotizá tu
+              <br />
+              <span class="text-[var(--color-primary)]">asistencia al viajero</span>
+            </h2>
+            <a
+              href="/asistencia-al-viajero"
+              class="mt-6 inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-[var(--color-dark)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            >
+              Solicitar cotización
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+
+        <div
+          x-show="active === 2"
+          x-transition:enter="transition-all duration-700 ease-in-out delay-200"
+          x-transition:enter-start="opacity-0 translate-y-4"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition-all duration-500 ease-in-out"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 -translate-y-4"
+          class="absolute inset-0 flex items-center"
+        >
+          <div>
+            <h2 class="text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
+              Cotizá tus otros
+              <br />
+              <span class="text-[var(--color-primary)]">seguros acá</span>
+            </h2>
+            <button
+              type="button"
+              @click="scrollToCotizacion()"
+              class="mt-6 inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-[var(--color-dark)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            >
+              Completar formulario
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
           </div>
         </div>
       </Container>
@@ -191,10 +195,23 @@ const total = slides.length;
     </div>
   </div>
 
-  <div class="bg-[var(--color-background)] py-12 sm:py-16 xl:hidden">
+  <div id="cotizacion" class="bg-gray-50 py-12 sm:py-16">
     <Container>
-      <div class="mx-auto max-w-3xl">
-        <QuoteForm />
+      <div class="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-16">
+        <div class="flex flex-col justify-center">
+          <h2 class="text-3xl font-extrabold leading-tight text-[var(--color-text)] sm:text-4xl">
+            Conseguí los mejores seguros al <span class="text-[var(--color-primary)]">mejor precio</span>
+          </h2>
+          <p class="mt-6 text-base leading-relaxed text-[var(--color-text)] opacity-80">
+            {insuranceTags} y más.
+          </p>
+          <p class="mt-4 text-base leading-relaxed text-[var(--color-text)] opacity-70">
+            Asesoramiento personalizado sin costo. Trabajamos con las mejores compañías del país.
+          </p>
+        </div>
+        <div class="xl:pt-4">
+          <QuoteForm />
+        </div>
       </div>
     </Container>
   </div>
@@ -211,7 +228,7 @@ const total = slides.length;
 
   Alpine.data('carousel', () => ({
     active: 0,
-    total: 5,
+    total: 3,
     timer: null as number | null,
     init(this: { start: () => void }) {
       this.start();
@@ -240,6 +257,12 @@ const total = slides.length;
     },
     goTo(this: { active: number }, i: number) {
       this.active = i;
+    },
+    scrollToCotizacion() {
+      const el = document.getElementById('cotizacion');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
     },
   }));
 

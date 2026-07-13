@@ -12,6 +12,15 @@ export interface QuoteFormData {
   consulta: string;
 }
 
+export interface ViajeroFormData {
+  nombre: string;
+  cantidadPersonas: string;
+  edades: string;
+  destino: string;
+  fechaDesde: string;
+  fechaHasta: string;
+}
+
 export interface ValidationResult {
   valid: boolean;
   errors: {
@@ -54,5 +63,50 @@ export function buildWhatsAppMessage(formData: QuoteFormData): string {
   if (email.length > 0) {
     lines.push(`Mi email: ${email}`);
   }
+  return encodeURIComponent(lines.join('\n'));
+}
+
+export interface ViajeroValidationResult {
+  valid: boolean;
+  errors: Record<keyof ViajeroFormData, boolean>;
+}
+
+export function validateViajeroForm(formData: ViajeroFormData): ViajeroValidationResult {
+  const errors: Record<keyof ViajeroFormData, boolean> = {
+    nombre: formData.nombre.trim().length === 0,
+    cantidadPersonas: formData.cantidadPersonas.trim().length === 0,
+    edades: formData.edades.trim().length === 0,
+    destino: formData.destino.trim().length === 0,
+    fechaDesde: formData.fechaDesde.trim().length === 0,
+    fechaHasta: formData.fechaHasta.trim().length === 0,
+  };
+  const valid = Object.values(errors).every((e) => !e);
+  return { valid, errors };
+}
+
+export function buildViajeroWhatsAppMessage(formData: ViajeroFormData): string {
+  const lines: string[] = [];
+  const nombre = formData.nombre.trim();
+
+  if (nombre.length > 0) {
+    lines.push(`Hola, soy ${nombre}. Quisiera cotizar una asistencia al viajero.`);
+  } else {
+    lines.push('Hola, quisiera cotizar una asistencia al viajero.');
+  }
+
+  const fields: Array<{ label: string; value: string }> = [
+    { label: 'Cantidad de personas', value: formData.cantidadPersonas.trim() },
+    { label: 'Edades', value: formData.edades.trim() },
+    { label: 'Destino', value: formData.destino.trim() },
+    { label: 'Fecha desde', value: formData.fechaDesde.trim() },
+    { label: 'Fecha hasta', value: formData.fechaHasta.trim() },
+  ];
+
+  for (const field of fields) {
+    if (field.value.length > 0) {
+      lines.push(`${field.label}: ${field.value}`);
+    }
+  }
+
   return encodeURIComponent(lines.join('\n'));
 }

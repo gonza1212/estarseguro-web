@@ -5,7 +5,7 @@ import SEO from '@components/SEO.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import WhatsAppCTA from '@components/WhatsAppCTA.astro';
-import carrousel1 from '@assets/carrousel-1.webp';
+import carrouselAuto from '@assets/carrousel-auto.webp';
 
 interface Props {
   title: string;
@@ -17,7 +17,7 @@ interface Props {
 const { title, description, ogImage, canonical } = Astro.props;
 
 const lcpImage = await getImage({
-  src: carrousel1,
+  src: carrouselAuto,
   format: 'webp',
   widths: [640, 960, 1280, 1920],
   sizes: '100vw',
