@@ -1,6 +1,7 @@
 ---
 import { getImage } from 'astro:assets';
 import logoLight from '@assets/logo_light.webp';
+import ogImageDefault from '@assets/og-image.webp';
 
 interface Props {
   title: string;
@@ -15,11 +16,36 @@ const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'http://localhost').toString();
 const logoAsset = await getImage({ src: logoLight, width: 256, format: 'webp' });
 const resolvedLogoUrl = new URL(logoAsset.src, Astro.site ?? 'http://localhost').toString();
-const resolvedOgImage = ogImage ?? resolvedLogoUrl;
-const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '';
-const publicEmail = 'contacto@estarseguro.com';
 
-const jsonLd = {
+const ogImageSrc = ogImage ?? (await getImage({ src: ogImageDefault, width: 1200, format: 'webp' })).src;
+const resolvedOgImage = new URL(ogImageSrc, Astro.site ?? 'http://localhost').toString();
+
+const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '';
+const instagramUrl = import.meta.env.PUBLIC_INSTAGRAM_URL ?? '';
+const sanCristobalUrl = import.meta.env.PUBLIC_SAN_CRISTOBAL_URL ?? '';
+const linkedinGastonUrl = import.meta.env.PUBLIC_LINKEDIN_GASTON_URL ?? '';
+const linkedinMelisaUrl = import.meta.env.PUBLIC_LINKEDIN_MELISA_URL ?? '';
+
+const sameAs: string[] = [];
+if (instagramUrl) sameAs.push(instagramUrl);
+if (sanCristobalUrl) sameAs.push(sanCristobalUrl);
+if (linkedinGastonUrl) sameAs.push(linkedinGastonUrl);
+if (linkedinMelisaUrl) sameAs.push(linkedinMelisaUrl);
+
+const agencyDescription =
+  'Productores asesores de seguros en Argentina. Cotizá seguros de auto, ART, sepelio, empresas, hogar, accidentes personales y asistencia al viajero con las mejores compañías. Asesoramiento personalizado, las mejores coberturas y los mejores precios. Atención por WhatsApp.';
+
+const knowsAbout = [
+  'Seguro de auto',
+  'Seguro de ART',
+  'Seguro de sepelio',
+  'Seguro para empresas',
+  'Seguro de hogar',
+  'Accidentes personales',
+  'Asistencia al viajero',
+];
+
+const insuranceAgency: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'InsuranceAgency',
   '@id': `${siteOrigin}#insurance-agency`,
@@ -27,37 +53,92 @@ const jsonLd = {
   url: siteOrigin || undefined,
   logo: resolvedLogoUrl,
   image: resolvedLogoUrl,
-  description,
+  description: agencyDescription,
   telephone: whatsappNumber || undefined,
-  email: publicEmail,
   areaServed: { '@type': 'Country', name: 'Argentina' },
-  employee: [
-    { '@type': 'Person', name: 'Arias Alberto Gastón' },
-    { '@type': 'Person', name: 'Valeria Melisa Millapinda' },
+  priceRange: '$$',
+  knowsAbout,
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Saturday'],
+      opens: '09:00',
+      closes: '13:00',
+    },
   ],
-};
-
-const authorJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  '@id': `${siteOrigin}#webpage`,
-  url: siteOrigin || undefined,
-  name: title,
-  isPartOf: { '@id': `${siteOrigin}#website` },
-  author: {
-    '@type': 'Organization',
-    name: 'Rotative',
-    url: 'https://rotative.com.ar',
+  employee: [
+    {
+      '@type': 'Person',
+      name: 'Arias Alberto Gastón',
+      identifier: '89.873',
+      sameAs: linkedinGastonUrl || undefined,
+    },
+    {
+      '@type': 'Person',
+      name: 'Valeria Melisa Millapinda',
+      identifier: '108.273',
+      sameAs: linkedinMelisaUrl || undefined,
+    },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Seguros disponibles',
+    itemListElement: knowsAbout.map((item) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: item },
+    })),
   },
 };
+
+if (sameAs.length > 0) {
+  insuranceAgency.sameAs = sameAs;
+}
+
+const website: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteOrigin}#website`,
+  name: 'Estar Seguro',
+  url: siteOrigin || undefined,
+  description: agencyDescription,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: `${siteOrigin}/?s={search_term_string}` },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const isSubPage = canonicalUrl !== (siteOrigin ? `${siteOrigin}/` : '');
+
+const breadcrumbList = isSubPage
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteOrigin ? `${siteOrigin}/` : '/' },
+        { '@type': 'ListItem', position: 2, name: title },
+      ],
+    }
+  : null;
 ---
 
 <title>{title}</title>
 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 <meta name="description" content={description} />
+<meta name="keywords" content="seguros argentina, mejores compañías de seguros, seguro de auto, ART, sepelio, asistencia al viajero, cotización online, seguros para empresas, seguro de hogar" />
+<meta name="robots" content="index, follow" />
+<meta name="theme-color" content="#fdbb03" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={resolvedOgImage} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content="Estar Seguro" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="es_AR" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -65,5 +146,6 @@ const authorJsonLd = {
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={resolvedOgImage} />
 <link rel="canonical" href={canonicalUrl} />
-<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-<script is:inline type="application/ld+json" set:html={JSON.stringify(authorJsonLd)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(insuranceAgency)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(website)} />
+{breadcrumbList && <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbList)} />}
