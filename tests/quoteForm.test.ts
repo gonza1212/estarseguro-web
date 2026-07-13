@@ -177,4 +177,55 @@ describe('buildWhatsAppMessage', () => {
     assert.ok(idxConsulta < idxTel, 'consulta antes de telefono');
     assert.ok(idxTel < idxEmail, 'telefono antes de email');
   });
+
+  it('omite la linea de saludo cuando nombre esta vacio', () => {
+    const message = buildWhatsAppMessage({
+      nombre: '',
+      telefono: '1145678901',
+      email: '',
+      tipoSeguro: 'Autos',
+      consulta: 'Quiero cotizar',
+    });
+    const decoded = decodeURIComponent(message);
+    assert.equal(decoded.includes('Hola, soy'), false);
+    assert.equal(decoded.includes('Quiero cotizar'), true);
+    assert.equal(decoded.includes('Mi teléfono: 1145678901'), true);
+  });
+
+  it('omite la linea de consulta cuando consulta esta vacia', () => {
+    const message = buildWhatsAppMessage({
+      nombre: 'Juan',
+      telefono: '',
+      email: '',
+      tipoSeguro: 'Autos',
+      consulta: '',
+    });
+    const decoded = decodeURIComponent(message);
+    assert.equal(decoded.includes('Hola, soy Juan. Me interesa el seguro de Autos.'), true);
+    assert.equal(decoded.includes('Mi teléfono:'), false);
+    assert.equal(decoded.includes('Mi email:'), false);
+  });
+
+  it('incluye solo el nombre cuando tipoSeguro esta vacio', () => {
+    const message = buildWhatsAppMessage({
+      nombre: 'Juan',
+      telefono: '',
+      email: '',
+      tipoSeguro: '',
+      consulta: 'Quiero cotizar',
+    });
+    const decoded = decodeURIComponent(message);
+    assert.equal(decoded, 'Hola, soy Juan.\nQuiero cotizar');
+  });
+
+  it('devuelve string vacio cuando todos los campos estan vacios', () => {
+    const message = buildWhatsAppMessage({
+      nombre: '',
+      telefono: '',
+      email: '',
+      tipoSeguro: '',
+      consulta: '',
+    });
+    assert.equal(message, '');
+  });
 });

@@ -32,15 +32,27 @@ export function validateForm(formData: QuoteFormData): ValidationResult {
 }
 
 export function buildWhatsAppMessage(formData: QuoteFormData): string {
-  const lines: string[] = [
-    `Hola, soy ${formData.nombre.trim()}. Me interesa el seguro de ${formData.tipoSeguro.trim()}.`,
-    formData.consulta.trim(),
-  ];
-  if (formData.telefono.trim().length > 0) {
-    lines.push(`Mi teléfono: ${formData.telefono.trim()}`);
+  const lines: string[] = [];
+  const nombre = formData.nombre.trim();
+  const tipoSeguro = formData.tipoSeguro.trim();
+  const consulta = formData.consulta.trim();
+  const telefono = formData.telefono.trim();
+  const email = formData.email.trim();
+
+  if (nombre.length > 0 && tipoSeguro.length > 0) {
+    lines.push(`Hola, soy ${nombre}. Me interesa el seguro de ${tipoSeguro}.`);
+  } else if (nombre.length > 0) {
+    lines.push(`Hola, soy ${nombre}.`);
   }
-  if (formData.email.trim().length > 0) {
-    lines.push(`Mi email: ${formData.email.trim()}`);
+
+  if (consulta.length > 0) {
+    lines.push(consulta);
+  }
+  if (telefono.length > 0) {
+    lines.push(`Mi teléfono: ${telefono}`);
+  }
+  if (email.length > 0) {
+    lines.push(`Mi email: ${email}`);
   }
   return encodeURIComponent(lines.join('\n'));
 }

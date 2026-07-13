@@ -4,7 +4,10 @@ import logoDark from '@assets/logo_dark.webp';
 import Container from '@components/Container.astro';
 
 const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '';
-const whatsappHref = whatsappNumber ? `https://wa.me/${whatsappNumber}` : 'https://wa.me/';
+const waMessage = encodeURIComponent('Hola, quisiera hacer una consulta.');
+const whatsappHref = whatsappNumber
+  ? `https://wa.me/${whatsappNumber}?text=${waMessage}`
+  : 'https://wa.me/';
 const instagramUrl = import.meta.env.PUBLIC_INSTAGRAM_URL ?? '#';
 const sanCristobalUrl = import.meta.env.PUBLIC_SAN_CRISTOBAL_URL ?? '#';
 const displayPhone = whatsappNumber

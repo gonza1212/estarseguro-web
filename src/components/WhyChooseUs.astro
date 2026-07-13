@@ -5,8 +5,7 @@ import Button from '@components/Button.astro';
 import nosotrosImg from '@assets/nosotros.webp';
 
 const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '';
-const fixedMessage =
-  'Hola! Mi nombre es ... estoy interesado en un seguro. Mi consulta es: ...';
+const fixedMessage = 'Hola, estoy interesado en recibir asesoramiento sobre seguros.';
 const ctaHref = whatsappNumber
   ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(fixedMessage)}`
   : '#';
