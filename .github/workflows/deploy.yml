@@ -30,6 +30,8 @@ jobs:
           PUBLIC_WHATSAPP_NUMBER: ${{ secrets.PUBLIC_WHATSAPP_NUMBER }}
           PUBLIC_INSTAGRAM_URL: ${{ secrets.PUBLIC_INSTAGRAM_URL }}
           PUBLIC_SAN_CRISTOBAL_URL: ${{ secrets.PUBLIC_SAN_CRISTOBAL_URL }}
+          PUBLIC_LINKEDIN_GASTON_URL: ${{ secrets.PUBLIC_LINKEDIN_GASTON_URL }}
+          PUBLIC_LINKEDIN_MELISA_URL: ${{ secrets.PUBLIC_LINKEDIN_MELISA_URL }}
 
       - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
